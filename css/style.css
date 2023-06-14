@@ -27,3 +27,30 @@
     align-items: center;
     text-align: center;
 }
+
+button:hover {
+    border-radius: 5px;
+    font-size: 15px;
+    transition: .5s;
+    background: #000;
+    color: white;
+}
+
+button {
+    border-radius: 5px;
+    font-size: 15px;
+    color: black;
+    background: whitesmoke;
+}
+
+.skrr {
+    text-align: center;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+/* .featured {
+    grid-column: inherit;
+    gap: 10rem;
+} */
+
