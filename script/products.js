@@ -1,86 +1,65 @@
-let cargoPants = document.querySelector('.cargo')
-let pantsList = [
-    {
-        id: 1,
-        title: 'Cargo#1',
-        image: 'https://i.postimg.cc/0NvPsQpH/55.jpg',
-        price: 'R2000'
-    },
+let productList = document.querySelector('.products');
+let allProducts = JSON.parse(localStorage.getItem('products'));
 
-    {
-        id: 2,
-        title: 'Cargo#2',
-        image: 'https://i.postimg.cc/0NvPsQpH/55.jpg',
-        price: 'R2000'
-    },
+let btnFilter = document.querySelector('.btn-filter');
 
-    {
-        id: 3,
-        title: 'Cargo#3',
-        image: 'https://i.postimg.cc/xTG9F92j/p2.jpg',
-        price: 'R2000'
-    },
+// filtering products by category
+let filterElement = document.querySelector('.filter');
 
-    {
-        id: 4,
-        title: 'Cargo#4',
-        image: 'https://i.postimg.cc/sDjLszWg/p3.jpg',
-        price: 'R2000'
-    },
-]
+btnFilter.addEventListener('click', () => {
+    let filter = filterElement.value;
 
-pantsList.forEach((cargo) => {
-    cargoPants.innerHTML += `
-    <div class="card" style="width: 18rem;">
-        <img src="${cargo.image}" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">${cargo.title}</h5>
-            <p class="card-text">${cargo.price}</p>
-            <a href="#" class="btn"><button>Add to cart</button></a>
-        </div>
-    </div>`
-})
+    let filteredProducts = allProducts;
 
-// HOODIES
+    // if all is selected
+    if (filter === 'pants'){
+        filteredProducts = allProducts.filter(product => {
+            return product.category === 'pants';
+        })
+    } else if (filter === 'hoodies'){
+        filteredProducts = allProducts.filter(product => {
+            return product.category === 'hoodies';
+        })
+    } else if (filter === 'sneaker'){
+        filteredProducts = allProducts.filter(product => {
+            return product.category === 'sneaker';
+        })
+    } else if (filter === 'caps'){
+        filteredProducts = allProducts.filter(product => {
+            return product.category === 'caps';
+        })
+    }
 
-let hoodies = document.querySelector('.hoodie')
-let hoodiesList = [
-    {
-        id: 1,
-        title: 'Cargo pants',
-        image: 'https://i.postimg.cc/0NvPsQpH/55.jpg',
-        price: 'R2000'
-    },
+    displayProducts(filteredProducts);
+   
+});
 
-    {
-        id: 2,
-        title: 'Hoodies',
-        image: 'https://i.postimg.cc/0NvPsQpH/55.jpg',
-        price: 'R2000'
-    },
+let checkoutItems = []
 
-    {
-        id: 3,
-        title: 'Sneakers',
-        image: 'https://i.postimg.cc/xTG9F92j/p2.jpg',
-        price: 'R2000'
-    },
+function displayProducts(products){
+    productList.innerHTML = "";
+    products.forEach((product) => {
+        productList.innerHTML += `
+        <div class="card" style="width: 18rem;">
+            <img src="${product.image}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">${product.category}</h5>
+                <p class="card-text">${product.price}</p>
+                <a class="btn"><button class="add">Add to cart</button></a>
+            </div>
+        </div>` 
 
-    {
-        id: 4,
-        title: 'Caps/Beanies',
-        image: 'https://i.postimg.cc/sDjLszWg/p3.jpg',
-        price: 'R2000'
-    },
-]
-hoodiesList.forEach((hoodie) => {
-    hoodies.innerHTML += `
-    <div class="card" style="width: 18rem;">
-        <img src="${hoodie.image}" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">${hoodie.title}</h5>
-            <p class="card-text">${hoodie.price}</p>
-            <a href="#" class="btn"><button>Add to cart</button></a>
-        </div>
-    </div>`
-})
+        document.querySelector('.add')
+        .addEventListener('click', (e) => {
+            e.preventDefault();
+            checkoutItems.push(product);
+            localStorage.setItem('checkoutItems', 
+            JSON.stringify(checkoutItems));
+        })
+       
+    }) 
+   
+    
+}
+
+displayProducts(allProducts)
